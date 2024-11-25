@@ -1,8 +1,60 @@
-import React from "react";
-import loginIMG from '../Assets/images/loginsideimg.png' // Update with your image path
+import React, { useState } from "react";
+import loginIMG from "../Assets/images/loginsideimg.png"
 import { Link } from "react-router-dom";
+import SummaryApi from "../common";
+import {toast} from 'react-toastify'
 
 const Signup = () => {
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "",
+  });
+
+  
+
+  const handleOnChange=(e)=>{
+    const {name,value}=e.target
+
+    setData((prev)=>{
+      return{
+        ...prev,
+        [name]:value
+      }
+    })
+
+  }
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault()
+
+    if(data.password === data.confirmPassword){
+      const dataResponse =await fetch(SummaryApi.Signup.url,{
+        method:SummaryApi.Signup.method,
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+      })
+
+      console.log("dataResponse",dataResponse)
+
+      const dataApi =await dataResponse.json()
+
+      if(dataApi.success){
+        toast.success(dataApi.message)
+      }
+
+      if(dataApi.error)
+      {
+        toast.error(dataApi.message)
+      }
+    }
+  }
+
+
   return (
     <div className="text-black flex">
       {/* Left Image Section */}
@@ -19,7 +71,7 @@ const Signup = () => {
                 <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl dark:text-gray-200 animate-bounce">
                   SIGN UP
                 </h1>
-                <form className="space-y-4 md:space-y-6" action="#">
+                <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit}>
                   {/* Name Field */}
                   <div>
                     <label
@@ -31,6 +83,8 @@ const Signup = () => {
                     <input
                       type="text"
                       name="name"
+                      onChange={handleOnChange}
+                      value={data.name}
                       id="name"
                       className="bg-gray-50 border text-gray-900 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-500 dark:placeholder-white dark:text-white"
                       placeholder="Enter your Name"
@@ -49,6 +103,8 @@ const Signup = () => {
                     <input
                       type="email"
                       name="email"
+                      onChange={handleOnChange}
+                      value={data.email}
                       id="email"
                       className="bg-gray-50 border text-gray-900 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-500 dark:placeholder-white dark:text-white"
                       placeholder="Enter your Email"
@@ -67,6 +123,8 @@ const Signup = () => {
                     <input
                       type="password"
                       name="password"
+                      onChange={handleOnChange}
+                      value={data.password}
                       id="password"
                       className="bg-gray-50 border text-gray-900 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-500 dark:placeholder-white dark:text-white"
                       placeholder="Enter Your Password"
@@ -84,7 +142,9 @@ const Signup = () => {
                     </label>
                     <input
                       type="password"
-                      name="confirm-password"
+                      name="confirmPassword"
+                      onChange={handleOnChange}
+                      value={data.confirmPassword}
                       id="confirm-password"
                       className="bg-gray-50 border text-gray-900 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-500 dark:placeholder-white dark:text-white"
                       placeholder="Confirm Your Password"
@@ -98,11 +158,14 @@ const Signup = () => {
                       Are you a:
                     </label>
                     <div className="flex items-center space-x-4">
+                      {/* Jobseeker Radio Button */}
                       <label className="flex items-center">
                         <input
                           type="radio"
                           name="role"
                           value="jobseeker"
+                          checked={data.role === "jobseeker"} // Reflects the selected value
+                          onChange={handleOnChange} // Updates the state when clicked
                           className="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-green-500 dark:focus:ring-offset-green-500"
                           required
                         />
@@ -110,11 +173,15 @@ const Signup = () => {
                           Jobseeker
                         </span>
                       </label>
+
+                      {/* Employer Radio Button */}
                       <label className="flex items-center">
                         <input
                           type="radio"
                           name="role"
                           value="employer"
+                          checked={data.role === "employer"} // Reflects the selected value
+                          onChange={handleOnChange} // Updates the state when clicked
                           className="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-green-500 dark:focus:ring-offset-green-500"
                           required
                         />
@@ -129,7 +196,7 @@ const Signup = () => {
                   <button
                     type="submit"
                     className="w-full text-green-500 bg-white hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  >
+                    >
                     Sign Up
                   </button>
 

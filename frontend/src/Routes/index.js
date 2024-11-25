@@ -4,7 +4,7 @@ import Home from "../Pages/Home";
 import App from "../App";
 import SignUp from "../Pages/SignUp";
 import ForgotPassword from "../Pages/ForgotPassword";
-import JobList from "../components/JobList";
+
 
 const router=createBrowserRouter([
     {
