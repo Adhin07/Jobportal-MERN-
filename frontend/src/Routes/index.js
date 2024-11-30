@@ -4,6 +4,8 @@ import Home from "../Pages/Home";
 import App from "../App";
 import SignUp from "../Pages/SignUp";
 import ForgotPassword from "../Pages/ForgotPassword";
+import UserDashBoard from "../Pages/UserDashBoard";
+import JobList from "../Pages/JobList";
 
 
 const router=createBrowserRouter([
@@ -27,6 +29,14 @@ const router=createBrowserRouter([
                 path:"forgotpassword",
                 element:<ForgotPassword/>
             },
+            {
+                path:"dashboard",
+                element:<UserDashBoard/>
+            },
+            {
+                path:"joblist",
+                element:<JobList/>
+            }
             
         ]
     }

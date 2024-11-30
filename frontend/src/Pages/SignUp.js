@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import loginIMG from "../Assets/images/loginsideimg.png"
+import loginIMG from "../Assets/images/signup.jpg"
 import { Link } from "react-router-dom";
 import SummaryApi from "../common";
 import {toast} from 'react-toastify'
@@ -63,10 +63,10 @@ const Signup = () => {
       </div>
 
       {/* Right Form Section */}
-      <div className="flex justify-center items-center w-full md:w-1/2 bg-green-500">
+      <div className="flex justify-center items-center w-full md:w-1/2 bg-purple-200 rounded-lg">
         <div className="w-2/4 mx-auto">
           <div className="flex flex-col items-center justify-center mx-auto lg:py-0 shadow-2xl">
-            <div className="w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0 dark:bg-green-500 dark:border-green-500 shadow-2xl">
+            <div className="w-full  rounded-lg md:mt-0 sm:max-w-md xl:p-0 shadow-2xl bg-purple-300">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl dark:text-gray-200 animate-bounce">
                   SIGN UP
@@ -86,7 +86,7 @@ const Signup = () => {
                       onChange={handleOnChange}
                       value={data.name}
                       id="name"
-                      className="bg-gray-50 border text-gray-900 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-500 dark:placeholder-white dark:text-white"
+                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-white"
                       placeholder="Enter your Name"
                       required
                     />
@@ -106,7 +106,7 @@ const Signup = () => {
                       onChange={handleOnChange}
                       value={data.email}
                       id="email"
-                      className="bg-gray-50 border text-gray-900 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-500 dark:placeholder-white dark:text-white"
+                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-white"
                       placeholder="Enter your Email"
                       required
                     />
@@ -126,7 +126,7 @@ const Signup = () => {
                       onChange={handleOnChange}
                       value={data.password}
                       id="password"
-                      className="bg-gray-50 border text-gray-900 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-500 dark:placeholder-white dark:text-white"
+                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-white"
                       placeholder="Enter Your Password"
                       required
                     />
@@ -146,7 +146,7 @@ const Signup = () => {
                       onChange={handleOnChange}
                       value={data.confirmPassword}
                       id="confirm-password"
-                      className="bg-gray-50 border text-gray-900 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-500 dark:placeholder-white dark:text-white"
+                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-white"
                       placeholder="Confirm Your Password"
                       required
                     />
@@ -195,7 +195,7 @@ const Signup = () => {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full text-green-500 bg-white hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    className="w-full text-purple-500 bg-white hover:bg-purple-500 focus:ring-4 focus:outline-none hover:text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     >
                     Sign Up
                   </button>

@@ -1,9 +1,12 @@
 import React from 'react'
+import Main from '../components/Main.js'
+
 
 function Home() {
   return (
     <div>
-      Home
+     
+        <Main/>
     </div>
   )
 }
