@@ -78,7 +78,7 @@ function Login() {
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               {/* Email Input */}
-              <div>
+              <div >
                 <label className="mb-2 font-medium flex">Email:</label>
                 <input
                   type="email"
@@ -86,7 +86,7 @@ function Login() {
                   value={data.email}
                   name="email"
                   onChange={handleOnChange}
-                  className="w-full bg-slate-100 p-2 rounded-md outline-none border  focus:ring-2 "
+                  className="w-full bg-slate-100 p-2 rounded-md outline-none border  focus:ring-2 text-black"
                   required
                 />
               </div>
@@ -101,7 +101,7 @@ function Login() {
                     value={data.password}
                     name="password"
                     onChange={handleOnChange}
-                    className="w-full bg-transparent outline-none"
+                    className="w-full bg-transparent outline-none text-black"
                     required
                   />
                   <div

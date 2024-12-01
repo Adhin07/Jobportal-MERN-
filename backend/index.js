@@ -14,7 +14,6 @@ app.use(cors(
   }
 ))
 
-console.log("process", process.env.FRONTEND_URL)
 
 app.use(express.json())
 app.use(cookieParser())

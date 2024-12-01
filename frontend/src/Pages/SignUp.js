@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import loginIMG from "../Assets/images/signup.jpg"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../common";
 import {toast} from 'react-toastify'
 
 const Signup = () => {
+
+  const navigate=useNavigate()
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
     role: "",
+    mobile:"",
+    resume:""
   });
 
   
@@ -39,12 +43,12 @@ const Signup = () => {
         body:JSON.stringify(data)
       })
 
-      console.log("dataResponse",dataResponse)
-
       const dataApi =await dataResponse.json()
 
       if(dataApi.success){
         toast.success(dataApi.message)
+        navigate("/login")
+        
       }
 
       if(dataApi.error)
@@ -86,7 +90,7 @@ const Signup = () => {
                       onChange={handleOnChange}
                       value={data.name}
                       id="name"
-                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-white"
+                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-blck"
                       placeholder="Enter your Name"
                       required
                     />
@@ -106,7 +110,7 @@ const Signup = () => {
                       onChange={handleOnChange}
                       value={data.email}
                       id="email"
-                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-white"
+                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-black"
                       placeholder="Enter your Email"
                       required
                     />
@@ -126,7 +130,7 @@ const Signup = () => {
                       onChange={handleOnChange}
                       value={data.password}
                       id="password"
-                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-white"
+                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-black"
                       placeholder="Enter Your Password"
                       required
                     />
@@ -146,7 +150,7 @@ const Signup = () => {
                       onChange={handleOnChange}
                       value={data.confirmPassword}
                       id="confirm-password"
-                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-white"
+                      className="bg-gray-50 border text-gray-900 rounded-lg  block w-full p-2.5  dark:placeholder-black dark:text-black"
                       placeholder="Confirm Your Password"
                       required
                     />
@@ -193,12 +197,14 @@ const Signup = () => {
                   </div>
 
                   {/* Submit Button */}
+                  
                   <button
                     type="submit"
                     className="w-full text-purple-500 bg-white hover:bg-purple-500 focus:ring-4 focus:outline-none hover:text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     >
                     Sign Up
                   </button>
+                  
 
                   {/* Login Link */}
                   <p className="text-sm font-light text-gray-500 dark:text-white flex justify-end">

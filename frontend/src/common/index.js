@@ -17,6 +17,13 @@ const SummaryApi={
         url :`${backendDomain}/api/user-details`,
         method :"get"
     },
+    Update_user:
+    {
+        url:`${backendDomain}/api/update-user`,
+        method:'post'        
+    },
+
+
 }
 
 
