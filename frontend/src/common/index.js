@@ -26,7 +26,12 @@ const SummaryApi={
     {
         url:`${backendDomain}/api/user-logout`,
         method:'get'
-    }
+    },
+   job_application:
+   {
+        url:`${backendDomain}/api/job-application`,
+        method:'post'
+   }
 
 
 }
