@@ -6,6 +6,7 @@ import SignUp from "../Pages/SignUp";
 import ForgotPassword from "../Pages/ForgotPassword";
 import UserDashBoard from "../Pages/UserDashBoard";
 import JobList from "../Pages/JobList";
+import EmployerDashboard from "../Pages/EmployerDashboard";
 
 
 const router=createBrowserRouter([
@@ -36,6 +37,10 @@ const router=createBrowserRouter([
             {
                 path:"joblist",
                 element:<JobList/>
+            },
+            {
+                path:"employer-dashboard",
+                element:<EmployerDashboard/>
             }
             
         ]

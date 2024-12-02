@@ -43,8 +43,6 @@ function Login() {
 
     const dataApi=await dataResponse.json()
 
-    console.log("dataApi",dataApi)
-
     if(dataApi.success){
       toast.success(dataApi.message)
       dispatch(setUserDetails(dataApi.data));

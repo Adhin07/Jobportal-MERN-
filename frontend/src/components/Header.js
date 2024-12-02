@@ -1,15 +1,37 @@
 import React from 'react'
 import Logo from './Logo'
 import { IoHome } from "react-icons/io5";
-import {Link}  from 'react-router-dom'
+import {Link, useNavigate}  from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiLoginBoxFill } from "react-icons/ri";
 import { MdDashboard } from "react-icons/md";
+import SummaryApi from '../common';
+import { toast } from 'react-toastify';
+import { setUserDetails } from '../store/userSlice';
 
 
 const Header = () => {
+
+    const navigate=useNavigate()
     const user=useSelector((state)=>state?.user?.user)
        const dispatch= useDispatch()
+
+       const handleLoggout=async()=>{
+        const fetchData=await fetch(SummaryApi.User_logout.url,
+            {
+                method:SummaryApi.User_logout.method,
+                credentials:"include"
+            }
+        )
+
+        const LogoutData=await fetchData.json()
+
+        if(LogoutData.success){
+            toast.success(LogoutData.message)
+            dispatch(setUserDetails(null))
+            navigate("/")
+        }
+       }
 
        
   return (
@@ -30,7 +52,7 @@ const Header = () => {
 
             {
                 user ? (
-                    <button className=' text-purple-600 hover:bg-purple-500 rounded-md p-1 cursor-pointer pr-3 ml-2 mr-2' >
+                    <button className=' text-purple-600 hover:bg-purple-500 rounded-md p-1 cursor-pointer pr-3 ml-2 mr-2' onClick={()=>handleLoggout()} >
                     <div className='flex justify-center relative font-semibold hover:text-white'>  
                     <div className='flex text-black pt-1 px-1'>
                      <RiLoginBoxFill />

@@ -22,6 +22,11 @@ const SummaryApi={
         url:`${backendDomain}/api/update-user`,
         method:'post'        
     },
+    User_logout:
+    {
+        url:`${backendDomain}/api/user-logout`,
+        method:'get'
+    }
 
 
 }

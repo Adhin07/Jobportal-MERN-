@@ -2,9 +2,9 @@ const UserModel = require("../models/userModels");
 
 async function userDetailsController(req,res){
     try{
-        const user =await UserModel.findById(req.user)
+        const user =await UserModel.findById(req.userId)
+        console.log({user});
         
-            console.log("user",user)
         res.status(200).json({
             data:user,
             error:false,

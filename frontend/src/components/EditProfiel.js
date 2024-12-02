@@ -1,42 +1,33 @@
-// All imports must be at the top
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
 
 
-// Your component code starts here
-const EditProfile = (
+const EditProfile = ()=> {
 
-) => {
-
-  const dispatch=useDispatch()
-
-  
   const [editData, setEditData] = useState({
+  
     name: '',
     password: '',
     confirmPassword: '',
     mobileNumber: '',
-    email: '',
-  });
+    email:'',
+  })
+
 
   const [errors, setErrors] = useState({});
-  const [isVisible, setIsVisible] = useState(true); // State to control visibility
+  const [isVisible, setIsVisible] = useState(true); 
 
 
-  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditData({
       ...editData,
       [name]: value,
-    });
-  };
+    })
+  }
 
 
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
@@ -52,8 +43,8 @@ const EditProfile = (
       newErrors.mobileNumber = 'Invalid mobile number';
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+      setErrors(newErrors)
+      return
     }
 
   
@@ -66,23 +57,39 @@ const EditProfile = (
         body:JSON.stringify(editData)
       });
 
-      const dataApi = await dataResponse.json();
+      const dataApi = await dataResponse.json()
 
       if (dataApi.success) {
-        toast.success(dataApi.message);
+        toast.success(dataApi.message)
       }
 
       if (dataApi.error) {
-        toast.error(dataApi.message);
+        toast.error(dataApi.message)
       }
     
   };
 
   const handleClose = () => {
-    setIsVisible(false); // Hide the profile edit form
-  };
+    setIsVisible(false)
+  }
 
-  if (!isVisible) return null;
+  const fetchData=async()=>{
+    const res=await fetch(SummaryApi.current_user.url,{
+      method:SummaryApi.current_user.method,
+      credentials:"include",
+      headers:{
+        "content-type":"application/json"
+      },
+    })
+    const userData=await res.json()
+    setEditData(userData?.data)
+  }
+
+  useEffect(()=>{
+        fetchData()
+  },[])
+
+  if (!isVisible) return null
 
 
   return (
@@ -100,7 +107,7 @@ const EditProfile = (
             type="text"
             id="name"
             name="name"
-            value={editData.name}
+            value={editData?.name}
             onChange={handleChange}
             className="mt-1 block w-full p-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500"
           />
