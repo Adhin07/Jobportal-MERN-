@@ -8,6 +8,7 @@ import UserDashBoard from "../Pages/UserDashBoard";
 import JobList from "../Pages/JobList";
 import EmployerDashboard from "../Pages/EmployerDashboard";
 import JobApplication from "../Pages/JobApplication";
+import ViewJobApplication from "../Pages/ViewJobApplication";
 
 
 const router=createBrowserRouter([
@@ -46,6 +47,10 @@ const router=createBrowserRouter([
             {
                 path:"job-application",
                 element:<JobApplication/>
+            },
+            {
+                path:"viewJobDetails/:jobId",
+                element:<ViewJobApplication/>
             }
             
         ]

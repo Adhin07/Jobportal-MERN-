@@ -11,7 +11,11 @@ export const userSlice = createSlice({
     setUserDetails:(state,action)=>{
       state.user =action.payload
        
-    }
+    },
+    // setApplicationDetails:(state,action)=>{
+    //   state.jobData =action.payload
+       
+    // }
   },
 })
 

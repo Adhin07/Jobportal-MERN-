@@ -7,10 +7,12 @@ import { FaEye } from "react-icons/fa";
 import {toast} from 'react-toastify'
 import { setUserDetails } from '../store/userSlice';
 import { useDispatch } from 'react-redux';
+import ROLE from '../common/role';
 
 function Login() {
 
-  const dispatch=useDispatch()
+
+  const dispatch= useDispatch()
   const [showPassword,setShowPassword]=useState(false)
   const [data,setData]=useState({
     email:"",
@@ -43,12 +45,31 @@ function Login() {
 
     const dataApi=await dataResponse.json()
 
+    
     if(dataApi.success){
       toast.success(dataApi.message)
       dispatch(setUserDetails(dataApi.data));
+
+        const res=await fetch(SummaryApi.current_user.url,{
+          method:SummaryApi.current_user.method,
+          credentials:"include",
+          headers:{
+            "content-type":"application/json"
+          },
+        })
+        const userData=await res.json()
+    
+        setData(userData?.data)
+
+        if(userData?.data?.role === ROLE.JOBSEEKER)
+        {
+            navigate('/dashboard')
+        }
+        if(userData?.data?.role === ROLE.EMPLOYEE){
+          navigate('/employer-dashboard')
+        }
     
       
-      navigate("/dashboard")
     }
 
     if(dataApi.error){

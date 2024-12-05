@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const JobApplication = () => {
+
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
     jobTitle: '',
     companyName: '',
@@ -40,6 +43,7 @@ const JobApplication = () => {
 
     if(dataApi.success){
         toast.success(dataApi.message)
+        navigate("/employer-dashboard")
     }
 
     if(dataApi.error){
@@ -95,7 +99,7 @@ const JobApplication = () => {
           <div>
             <label htmlFor="salary" className="block text-sm font-medium text-gray-700">Salary (per month)</label>
             <input
-              type="number"
+              type="text"
               id="salary"
               name="salary"
               value={formData.salary}

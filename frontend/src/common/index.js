@@ -31,6 +31,20 @@ const SummaryApi={
    {
         url:`${backendDomain}/api/job-application`,
         method:'post'
+   },
+   all_job:{
+        url:`${backendDomain}/api/all-job`,
+        method:'get'
+   },
+   apply_job:
+   {
+        url:`${backendDomain}/api/apply-job`,
+        method:'get'
+   },
+   resume_upload:
+   {
+        url:`${backendDomain}/api/resume-upload`,
+        method:'post'
    }
 
 

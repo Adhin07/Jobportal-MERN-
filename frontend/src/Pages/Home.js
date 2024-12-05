@@ -7,7 +7,9 @@ function Home() {
     <div>
      
         <Main/>
-        {/* <EditProfile/> */}
+
+        
+
     </div>
   )
 }

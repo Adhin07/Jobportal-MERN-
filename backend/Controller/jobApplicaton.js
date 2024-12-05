@@ -9,7 +9,7 @@ async function jobApplication(req,res)
         ...req.body
     }
 
-     const jobData=new  JobApplicationModel(payload)
+     const jobData=new JobApplicationModel(payload)
 
      const saveApplication=jobData.save()
 
