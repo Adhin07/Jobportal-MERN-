@@ -19,8 +19,6 @@ function JobList() {
     const jobData = await response.json();
     setJob(jobData);
 
-    console.log('JobData123', jobData);
-
     if (jobData.success) {
       navigate(`/viewJobDetails/${job._id}`, { state: { job: job } });
     }
@@ -37,8 +35,6 @@ function JobList() {
 
     const jobData = await fetchData.json();
     setViewData(jobData.data);
-
-    console.log('Jobdata', jobData);
   };
 
   useEffect(() => {

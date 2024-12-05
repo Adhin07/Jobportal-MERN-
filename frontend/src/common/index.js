@@ -45,6 +45,16 @@ const SummaryApi={
    {
         url:`${backendDomain}/api/resume-upload`,
         method:'post'
+   },
+   View_Applied_job:
+   {
+        url:`${backendDomain}/api/view-applied-job`,
+        method:'get'
+   },
+   View_candidates:
+   {
+        url:`${backendDomain}/api/view-applied-candidates`,
+        method:'get'
    }
 
 

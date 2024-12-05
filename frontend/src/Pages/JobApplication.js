@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const JobApplication = () => {
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    batchNumber: '',
     jobTitle: '',
     companyName: '',
     endDate: '',
@@ -27,29 +28,27 @@ const JobApplication = () => {
     }));
   };
 
-  const handleSubmit =async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const fetchData=await fetch(SummaryApi.job_application.url,{
-        method:SummaryApi.job_application.method,
-        credentials:"include",
-        headers:{
-            "content-type":"application/json"
-        },
-        body:JSON.stringify(formData)
-        
-    })
-    
-    const dataApi=await fetchData.json()
+    const fetchData = await fetch(SummaryApi.job_application.url, {
+      method: SummaryApi.job_application.method,
+      credentials: "include",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
 
-    if(dataApi.success){
-        toast.success(dataApi.message)
-        navigate("/employer-dashboard")
+    const dataApi = await fetchData.json();
+
+    if (dataApi.success) {
+      toast.success(dataApi.message);
+      navigate("/employer-dashboard");
     }
 
-    if(dataApi.error){
-        toast.error(dataApi.message)
+    if (dataApi.error) {
+      toast.error(dataApi.message);
     }
-   
   };
 
   return (
@@ -57,6 +56,21 @@ const JobApplication = () => {
       <h1 className="text-3xl font-bold mb-6 text-center text-purple-600">Job Application</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 gap-6">
+          {/* Batch Number Input */}
+          <div>
+            <label htmlFor="batchNumber" className="block text-sm font-medium text-gray-700">Batch Number</label>
+            <input
+              type="text"
+              id="batchNumber"
+              name="batchNumber"
+              value={formData.batchNumber}
+              onChange={handleChange}
+              required
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
+          {/* Job Title Input */}
           <div>
             <label htmlFor="jobTitle" className="block text-sm font-medium text-gray-700">Job Title</label>
             <input
@@ -70,6 +84,7 @@ const JobApplication = () => {
             />
           </div>
 
+          {/* Company Name Input */}
           <div>
             <label htmlFor="companyName" className="block text-sm font-medium text-gray-700">Company Name</label>
             <input
@@ -83,6 +98,7 @@ const JobApplication = () => {
             />
           </div>
 
+          {/* End Date Input */}
           <div>
             <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">End Date</label>
             <input
@@ -96,6 +112,7 @@ const JobApplication = () => {
             />
           </div>
 
+          {/* Salary Input */}
           <div>
             <label htmlFor="salary" className="block text-sm font-medium text-gray-700">Salary (per month)</label>
             <input
@@ -109,6 +126,7 @@ const JobApplication = () => {
             />
           </div>
 
+          {/* Experience Input */}
           <div>
             <label htmlFor="experience" className="block text-sm font-medium text-gray-700">Experience</label>
             <input
@@ -122,6 +140,7 @@ const JobApplication = () => {
             />
           </div>
 
+          {/* Company Location Input */}
           <div>
             <label htmlFor="companyLocation" className="block text-sm font-medium text-gray-700">Company Location</label>
             <input
@@ -135,6 +154,7 @@ const JobApplication = () => {
             />
           </div>
 
+          {/* Employer Type Input */}
           <div>
             <label htmlFor="employerType" className="block text-sm font-medium text-gray-700">Employer Type</label>
             <select
@@ -149,6 +169,7 @@ const JobApplication = () => {
             </select>
           </div>
 
+          {/* Skills Input */}
           <div>
             <label htmlFor="skills" className="block text-sm font-medium text-gray-700">Skills</label>
             <input
@@ -162,6 +183,7 @@ const JobApplication = () => {
             />
           </div>
 
+          {/* Qualification Input */}
           <div>
             <label htmlFor="qualification" className="block text-sm font-medium text-gray-700">Qualification</label>
             <input
@@ -175,6 +197,7 @@ const JobApplication = () => {
             />
           </div>
 
+          {/* Job Description Input */}
           <div>
             <label htmlFor="jobDescription" className="block text-sm font-medium text-gray-700">Job Description</label>
             <textarea
@@ -188,6 +211,7 @@ const JobApplication = () => {
           </div>
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           className="w-full py-3 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"

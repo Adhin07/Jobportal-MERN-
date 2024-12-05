@@ -11,6 +11,8 @@ const viewJobDetailsController = require("../Controller/ViewJobDetailsController
 const viewJobandApply = require("../Controller/viewApplicationBigpage")
 const resumeController = require("../Controller/resumeController")
 const multer = require('../middleware/multer')
+const viewAppliedJob = require("../Controller/JobseekerViewApplied")
+const viewCandidateController = require("../Controller/viewCandidate")
 
 
 const router =express.Router()
@@ -27,6 +29,8 @@ router.post("/job-application",authToken,jobApplication)
 router.get("/all-job",authToken,viewJobDetailsController)
 router.get("/apply-job",authToken,viewJobandApply)
 router.post("/resume-upload",authToken,multer,resumeController)
+router.get("/view-applied-job",authToken,viewAppliedJob)
+router.get('/view-applied-candidates',authToken,viewCandidateController)
 
 
 module.exports=router

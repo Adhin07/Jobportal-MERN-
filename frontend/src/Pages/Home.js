@@ -1,5 +1,6 @@
 import React from 'react'
 import Main from '../components/Main.js'
+import JobDetails from './ViewAppliedJobs.js'
 
 
 function Home() {
@@ -7,6 +8,7 @@ function Home() {
     <div>
      
         <Main/>
+
 
         
 

@@ -8,8 +8,6 @@ try{
     const {jobId} = req.query
 
     const allJob=await JobApplicationModel.findById(jobId)
-
-    console.log("jobid in ",allJob)
     
     res.json({
         data:allJob,

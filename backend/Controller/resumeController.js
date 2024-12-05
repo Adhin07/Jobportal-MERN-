@@ -10,25 +10,20 @@ async function resumeController(req, res) {
         success: false,
       });
     }
+    
 
-    
-    // Log file info for debugging
-    
-    // Extract file data
+    console.log("req.body",req.body.job)
     const { filename, path } = req.file;
-    const {jobId}=req.body
-    const {userId}=req.userId
-  
-    // Extract additional form data from req.body
+
     const payload = {
-      ...req.file,
-      filename,
+      ...req.body.job,
+      filename, 
       path, 
-      userId: req.userId, // Assuming you have user data (e.g., from JWT or session)
-      jobId: req.body.jobId, // jobId from form data
+      userId: req.userId, 
+      jobId: req.body.job._id, 
     };
 
-    // Create a new document with the payload
+   
     const resumeData = new resumeModel(payload);
 
     // Save the resume data

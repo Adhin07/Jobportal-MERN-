@@ -3,10 +3,13 @@ const JobApplicationModel = require("../models/jobApplicationModel")
 async function jobApplication(req,res) 
 {
   try{
+
+      
      const {jobTitle,ComponyName,endDate,salary,experience,companyLocation,employerType,skills,qualification,jobDescription}=req.body
 
     const payload={
-        ...req.body
+        ...req.body,
+        userId:req.userId
     }
 
      const jobData=new JobApplicationModel(payload)

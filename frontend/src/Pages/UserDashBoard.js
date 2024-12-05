@@ -16,6 +16,13 @@ function UserDashBoard() {
     setOpenEditProfile((prevState) => !prevState);
   };
 
+  const handleViewJob=()=>{
+
+
+    
+    navigate('/view-applied-job')
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <header className="bg-purple-700 text-white py-4">
@@ -43,7 +50,8 @@ function UserDashBoard() {
           <div className="bg-purple-50 p-6 rounded-lg shadow-lg hover:bg-purple-100 transition-all">
             <h2 className="text-2xl font-bold text-purple-700">View Applied Jobs</h2>
             <p className="mt-2 text-gray-600">Check the jobs you’ve applied to and their status.</p>
-            <button className="mt-4 bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800">
+            <button className="mt-4 bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800"
+            onClick={handleViewJob}>
               View Jobs
             </button>
           </div>

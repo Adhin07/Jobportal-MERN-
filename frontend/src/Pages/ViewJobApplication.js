@@ -8,6 +8,7 @@ function ViewJobApplication() {
   const { job } = location.state || {}; // Default to an empty object if no job data is found
 
 
+
   const [selectedFile, setSelectedFile] = useState(null); // State to store the selected file
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
@@ -33,11 +34,10 @@ function ViewJobApplication() {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("jobId",job?._id) // Append the selected file to the FormData
-    console.log({selectedFile,formData})
-    for (let [key, value] of formData.entries()) {
-      console.log("formdata fgfsgsfsdgdsgdf",key, value);
-    }
+    
+    Object.keys(job).forEach(key => {
+      formData.append(`job[${key}]`, job[key]);
+  });
     
 
       const response = await fetch(SummaryApi.resume_upload.url, {
@@ -48,8 +48,6 @@ function ViewJobApplication() {
       
 
       const resumData = await response.json();
-
-      console.log("resumData",resumData)
 
       if (resumData.success) {
         toast.success(resumData.message);

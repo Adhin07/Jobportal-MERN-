@@ -5,6 +5,15 @@ const jobApplicationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"",
+    required:true
+  },
+  batchNumber:{
+    type: String,
+    required: true
+  },
   companyName: {
     type: String,
     required: true,

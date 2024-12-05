@@ -12,6 +12,10 @@ function EmployerDashboard() {
     setOpenEditProfile((prevState)=>!prevState)
   }
 
+  const handleViewCandidates=()=>{
+    navigate("/ViewappliedCandidates")
+  }
+
   useEffect(()=>{
       
   },[openEditProfiel]) //run whenever openeditprofiel changes
@@ -66,7 +70,9 @@ function EmployerDashboard() {
           <div className="bg-purple-50 p-6 rounded-lg shadow-lg hover:bg-purple-100 transition-all">
             <h2 className="text-2xl font-bold text-purple-700">View Applied Candidates</h2>
             <p className="mt-2 text-gray-600">View and give status for candidates applications.</p>
-            <button className="mt-4 bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800">
+            <button className="mt-4 bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800"
+            onClick={handleViewCandidates}
+            >
               View Application
             </button>
           </div>
