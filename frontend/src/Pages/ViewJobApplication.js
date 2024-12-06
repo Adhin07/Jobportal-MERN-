@@ -57,8 +57,8 @@ function ViewJobApplication() {
         toast.error(resumData.message);
       }
     
-    closeModal(); // Close the modal after the upload is complete
-  };
+       closeModal()
+  }
 
   return (
     <div>

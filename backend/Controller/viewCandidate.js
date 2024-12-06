@@ -7,22 +7,49 @@ async function viewCandidateController(req,res){
 
         const userId=req.userId
 
-        const userData=await JobApplicationModel.find({userId}).lean()
+       const userData=await JobApplicationModel.find({userId}).lean()
 
-       const jobId=userData[0]._id
+       if (!userData || userData.length === 0) {
+        return res.status(404).json({
+            message: "No job applications found for this employer.",
+            error: true,
+            success: false
+        });
+    }   
 
-       const batchData = JSON.stringify(userData[0].batchNumber);
-       
-        const resumeData=await resumeModel.findById(jobId)
-    
-        const candidateId=resumeData.userId
+      const jobId=userData[0]._id
 
-        const CandidateData=await UserModel.findById(candidateId)
-           const data={...CandidateData,batchData}
+        const resumeData=await resumeModel.find({jobId}).lean()
 
+        if (!resumeData || resumeData.length === 0) {
+            return res.status(404).json({
+                message: "No candidates have applied for this job.",
+                error: true,
+                success: false
+            });
+        }
+
+        const candidateDetiails=[]
+
+        for (const resume of resumeData){
+            const candidateId=resume.userId
+
+          const  candidate=await UserModel.findById(candidateId).lean()
+
+          if(candidate) {
+
+            const batchData=resume.batchNumber
+
+            candidateDetiails.push({
+                ...candidate,
+                batchData:batchData
+            })
+          }
+
+        }
             res.json({
-                data:data,
-                message:"Candidates details",
+                data:candidateDetiails,
+                message:"Candidates details retrived successfully",
                 error:false,
                 success:true
             })

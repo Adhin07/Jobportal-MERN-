@@ -11,17 +11,28 @@ async function resumeController(req, res) {
       });
     }
     
-
-    console.log("req.body",req.body.job)
     const { filename, path } = req.file;
 
     const payload = {
-      ...req.body.job,
+       batchNumber:req.body.job.batchNumber,
       filename, 
       path, 
       userId: req.userId, 
       jobId: req.body.job._id, 
     };
+
+    const existingResume=await resumeModel.findOne({
+      userId: req.userId, 
+      jobId: req.body.job._id, 
+    })
+
+    if(existingResume){
+      return res.json({
+        message:"You have already applied for this job",
+        error:true,
+        success:false
+      })
+    }
 
    
     const resumeData = new resumeModel(payload);

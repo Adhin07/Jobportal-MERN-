@@ -14,7 +14,9 @@ const JobDetails = () => {
     });
 
     const data = await response.json();
-    setJobData(data.data); // Update the state with the fetched data
+      const applyData=data.data
+    setJobData(applyData);
+
   };
 
   useEffect(() => {
@@ -25,28 +27,28 @@ const JobDetails = () => {
     <div className="container w-full">
       <h1 className="text-blue-600 font-semibold text-3xl py-7">Applied Job Details</h1>
       <div className="mx-16">
-        <table className="border-2 w-full">
-          <thead>
+        <table className="border-2 w-full ">
+          <thead className='bg-black text-white' >
             <tr className="border-2 border-black">
-              <th>Job Title</th>
+              <th >Job Title</th>
               <th>Company Name</th>
               <th>Salary</th>
               <th>Status</th>
             </tr>
           </thead>
-          <tbody className="border-2 border-gray-400">
-            {jobData.length > 0 ? (
+          <tbody className="border-2 border-black">
+            {jobData && jobData.length > 0 ? (
               jobData.map((job,index) => (
-                <tr key={index}>
-                  <td>{job.jobTitle}</td>
-                  <td>{job.companyName}</td>
-                  <td>{job.salary}</td>
-                  <td>{job.status}</td>
+                <tr key={index}className="border-2 border-black">
+                  <td className="border-2 border-black">{job.jobTitle}</td>
+                  <td className="border-2 border-black">{job.companyName}</td>
+                  <td className="border-2 border-black">{job.salary}</td>
+                  <td className="border-2 border-black">{job.status}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="4">No jobs applied yet</td>
+                <td colSpan='5'>No jobs applied yet</td>
               </tr>
             )}
           </tbody>
