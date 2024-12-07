@@ -11,7 +11,8 @@ import JobApplication from "../Pages/JobApplication";
 import ViewJobApplication from "../Pages/ViewJobApplication";
 import JobDetails from "../Pages/ViewAppliedJobs";
 import ViewCandidates from "../Pages/ViewCandidates";
-
+import createdJobView from "../components/createdJobView";
+import JobApplicationEdit from "../Pages/JobApplicationEdit";
 
 const router=createBrowserRouter([
     {
@@ -61,6 +62,10 @@ const router=createBrowserRouter([
             {
                 path:"ViewappliedCandidates", //Employee can view the candidates
                 element:<ViewCandidates/>
+            },
+            {
+                path:"edit-Create-Job/:jobId", //Editing Employee created job
+                element:<JobApplicationEdit/>
             }
             
         ]

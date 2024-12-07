@@ -13,6 +13,9 @@ const resumeController = require("../Controller/resumeController")
 const multer = require('../middleware/multer')
 const viewAppliedJob = require("../Controller/JobseekerViewApplied")
 const viewCandidateController = require("../Controller/viewCandidate")
+const viewCreatedJob = require("../Controller/viewCreatedJob")
+const editJobApplication = require("../Controller/editJobApplication")
+const deleteJobApplication = require("../Controller/deleteJobApplication")
 
 
 const router =express.Router()
@@ -31,6 +34,8 @@ router.get("/apply-job",authToken,viewJobandApply)
 router.post("/resume-upload",authToken,multer,resumeController)
 router.get("/view-applied-job",authToken,viewAppliedJob)
 router.get('/view-applied-candidates',authToken,viewCandidateController)
-
+router.get("/viewCreatedJob",authToken,viewCreatedJob)
+router.post("/editCreateJob",authToken,editJobApplication)
+router.delete("/deleteJobApplication",authToken,deleteJobApplication)
 
 module.exports=router

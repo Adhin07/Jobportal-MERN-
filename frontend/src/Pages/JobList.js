@@ -103,36 +103,29 @@ function JobList() {
       {/* Job Listings Table */}
       <div className="mt-8">
         <div className="overflow-y-auto max-h-96"> {/* max-h-96 sets a limit for the visible area */}
-          <table className="min-w-full bg-white border-2 border-separate border-gray-200 rounded-lg">
-            <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Job Title</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Company Name</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Salary</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Experience</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Qualification</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Location</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">End Date</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Skills</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Job Description</th>
-                <th className="px-4 py-2 border-b font-medium text-sm text-gray-700">Action</th>
+          <table className="min-w-full  border-2   rounded-lg">
+            <thead className='border-2 border-black bg-black text-white '>
+              <tr className="border-2 border-black  ">
+                <th className="px-4 py-2 border-b font-medium text-sm ">Job Title</th>
+                <th className="px-4 py-2 border-b font-medium text-sm ">Company Name</th>
+                <th className="px-4 py-2 border-b font-medium text-sm ">Salary</th>
+                <th className="px-4 py-2 border-b font-medium text-sm ">Location</th>
+                <th className="px-4 py-2 border-b font-medium text-sm ">End Date</th>
+                <th className="px-4 py-2 border-b font-medium text-sm ">Action</th>
               </tr>
             </thead>
-            <tbody className="border border-black">
+            <tbody className="border-2 border-black ">
               {viewData.length > 0 ? (
                 viewData.map((job) => (
-                  <tr key={job._id}>
-                    <td className="px-4 py-2 border-b truncate">{job.jobTitle}</td>
-                    <td className="px-4 py-2 border-b truncate">{job.companyName}</td>
-                    <td className="px-4 py-2 border-b truncate">{job.salary}</td>
-                    <td className="px-4 py-2 border-b truncate">{job.experience}</td>
-                    <td className="px-4 py-2 border-b truncate">{job.qualification}</td>
-                    <td className="px-4 py-2 border-b truncate">{job.companyLocation}</td>
-                    <td className="px-4 py-2 border-b truncate">{new Date(job.endDate).toLocaleDateString('en-GB')}</td>
-                    <td className="px-4 py-2 border-b truncate">{job.skills}</td>
-                    <td className="px-4 py-2 border-b truncate">{job.jobDescription}</td>
-                    <td className="px-4 py-2 border-b">
-                      <button className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-700" onClick={() => handleApply(job)}>Apply</button>
+                  <tr key={job._id} >
+                    <td className="px-4 py-2 border-b border-2 truncate border-black">{job.jobTitle}</td>
+                    <td className="px-4 py-2 border-b border-2 truncate border-black">{job.companyName}</td>
+                    <td className="px-4 py-2 border-b border-2 truncate border-black">{job.salary}</td>
+                    <td className="px-4 py-2 border-b border-2 truncate border-black">{job.companyLocation}</td>
+                    <td className="px-4 py-2 border-b border-2 truncate border-black">{new Date(job.endDate).toLocaleDateString('en-GB')}</td>
+
+                    <td className="px-4 py-2 border-b border-2 border-black">
+                      <button className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-700" onClick={() => handleApply(job)}>View & Apply</button>
                     </td>
                   </tr>
                 ))

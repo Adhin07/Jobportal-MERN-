@@ -55,7 +55,23 @@ const SummaryApi={
    {
         url:`${backendDomain}/api/view-applied-candidates`,
         method:'get'
+   },
+   view_Created_Job:
+   {
+          url:`${backendDomain}/api/viewCreatedJob`,
+          method:'get'
+   },
+   Update_Job_Application:
+   {
+          url:`${backendDomain}/api/editCreateJob`,
+          method:'post'
+   },
+   Delete_job_application:
+   {
+          url:`${backendDomain}/api/deleteJobApplication`,
+          method:'delete'
    }
+   
 
 
 }
