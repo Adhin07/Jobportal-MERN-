@@ -1,28 +1,68 @@
-import React, { useEffect, useState } from 'react'
-import SummaryApi from '../common/index'
+import React, { useEffect, useState } from 'react';
+import SummaryApi from '../common/index';
 
-function ViewCandidates() { 
-  const [CandidateData, setCandidateDate] = useState([])
+function ViewCandidates() {
+  const [candidateData, setCandidateData] = useState([]);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [status, setStatus] = useState('');
 
+  // Fetch candidate data from the API
   const handleUserData = async () => {
-    const userData = await fetch(SummaryApi.View_candidates.url, {
+    const response = await fetch(SummaryApi.View_candidates.url, {
       method: SummaryApi.View_candidates.method,
-      credentials: "include",
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json"
-      }
-    })
+        'Content-Type': 'application/json',
+      },
+    });
 
-    const viewData = await userData.json()
-    const data = viewData.data
-
-    // Set the candidate data
-    setCandidateDate(data)
-  }
+    const viewData = await response.json();
+    const data = viewData.data || [];
+    setCandidateData(data);
+  };
 
   useEffect(() => {
-    handleUserData()
-  }, [])
+    handleUserData();
+  }, []);
+
+  const openModal = (candidate) => {
+    setSelectedCandidate(candidate);
+    setIsResumeModalOpen(true);
+    document.body.style.overflow = 'hidden'; // Disable scrolling
+  };
+
+  const closeModal = () => {
+    setIsResumeModalOpen(false);
+    setSelectedCandidate(null);
+    setStatus('');
+    document.body.style.overflow = 'auto'; // Enable scrolling
+  };
+
+  const handleDownloadResume = () => {
+    if (selectedCandidate?.resumeUrl) {
+      window.open(selectedCandidate.resumeUrl, '_blank');
+    } else {
+      alert('Resume not available');
+    }
+  };
+
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+  };
+
+  const handleSaveStatus = () => {
+    if (!status) {
+      alert('Please select a status before saving.');
+      return;
+    }
+
+    // Implement API call to save the status
+    console.log(`Saving status "${status}" for candidate: ${selectedCandidate?.name}`);
+
+    // Close the modal after saving
+    closeModal();
+  };
 
   return (
     <div>
@@ -30,41 +70,108 @@ function ViewCandidates() {
         <h1 className="text-blue-500 font-semibold text-3xl py-7">Applied Candidates Details</h1>
         <div className="mx-16">
           <table className="border-2 w-full">
-            <thead className='text-white bg-black'>
+            <thead className="text-white bg-black">
               <tr className="border-2 border-black">
                 <th>Name</th>
                 <th>Email</th>
                 <th>Contact</th>
-                <th>JOB Batch.No</th>
-                <th>Status</th>
+                <th>Job Batch No</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody className="border-2 border-gray-400">
-              {
-                (CandidateData && CandidateData.length > 0) ? (
-                  CandidateData.map((data, index) => (
-                    <tr key={index}>
-                      <td className="border-2 border-black">{data.name}</td> 
-                      <td className="border-2 border-black">{data.email}</td>
-                      <td className="border-2 border-black">{data.mobile || "Contact number not Available"}</td>
-                      <td className="border-2 border-black">{data.batchData}</td> 
-                      <td>
-                        <button className='bg-green-500 hover:bg-green-700 text-white px-2 p-1 rounded m-1 '>Action</button>
-                      </td> 
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5">No Candidates Applied yet</td>
+              {candidateData && candidateData.length > 0 ? (
+                candidateData.map((candidate, index) => (
+                  <tr key={index}>
+                    <td className="border-2 border-black">{candidate.name}</td>
+                    <td className="border-2 border-black">{candidate.email}</td>
+                    <td className="border-2 border-black">{candidate.mobile || 'Not Available'}</td>
+                    <td className="border-2 border-black">{candidate.batchData}</td>
+                    <td>
+                      <button
+                        className="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded m-1"
+                        onClick={() => openModal(candidate)}
+                      >
+                        Action
+                      </button>
+                    </td>
                   </tr>
-                )
-              }
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-4">No Candidates Applied Yet</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Modal for Resume Download and Status Update */}
+      {isResumeModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full relative">
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 bg-red-600 text-white rounded-full p-2 hover:bg-red-800"
+              aria-label="Close Modal"
+            >
+              &times;
+            </button>
+
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">Candidate Management</h2>
+
+            {/* Resume Download Section */}
+            <div className="mb-4">
+              <p className="text-gray-700">Download the candidate's resume:</p>
+              <button
+                onClick={handleDownloadResume}
+                className="mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+              >
+                Download Resume
+              </button>
+            </div>
+
+            {/* Status Update Section */}
+            <div>
+              <label htmlFor="status" className="block text-gray-700 mb-2">
+                Update Candidate Status:
+              </label>
+              <select
+                id="status"
+                value={status}
+                onChange={handleStatusChange}
+                className="w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+              >
+                <option value="">Select Status</option>
+                <option value="shortlisted">Shortlisted</option>
+                <option value="rejected">Rejected</option>
+                <option value="hired">Hired</option>
+                <option value="on-hold">On Hold</option>
+              </select>
+            </div>
+
+            {/* Save or Close Actions */}
+            <div className="mt-6 flex justify-end space-x-4">
+              <button
+                onClick={closeModal}
+                className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveStatus}
+                className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default ViewCandidates
+export default ViewCandidates;

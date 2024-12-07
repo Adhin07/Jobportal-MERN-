@@ -11,12 +11,14 @@ async function resumeController(req, res) {
       });
     }
     
-    const { filename, path } = req.file;
+    
+
+    // console.log(req.file)
 
     const payload = {
        batchNumber:req.body.job.batchNumber,
-      filename, 
-      path, 
+       fileName:req.file.originalname, 
+      filePath:req.file.path, 
       userId: req.userId, 
       jobId: req.body.job._id, 
     };
