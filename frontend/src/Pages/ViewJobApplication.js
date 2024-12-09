@@ -67,6 +67,9 @@ function ViewJobApplication() {
           <h1 className="text-3xl font-semibold text-blue-500">Job Application Details</h1>
           <div className="space-y-4 flex flex-col items-start">
           <p className="text-lg text-gray-700">
+              <strong>batchName:</strong> {job?.batchNumber}
+            </p>
+          <p className="text-lg text-gray-700">
               <strong>Company Name:</strong> {job?.jobTitle}
             </p>
             <p className="text-lg text-gray-700">

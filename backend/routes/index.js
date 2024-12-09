@@ -16,6 +16,8 @@ const viewCandidateController = require("../Controller/viewCandidate")
 const viewCreatedJob = require("../Controller/viewCreatedJob")
 const editJobApplication = require("../Controller/editJobApplication")
 const deleteJobApplication = require("../Controller/deleteJobApplication")
+const resumeDownloadController = require("../Controller/resumeDownload")
+const statusResumeController = require("../Controller/statusResume")
 
 
 const router =express.Router()
@@ -37,5 +39,7 @@ router.get('/view-applied-candidates',authToken,viewCandidateController)
 router.get("/viewCreatedJob",authToken,viewCreatedJob)
 router.post("/editCreateJob",authToken,editJobApplication)
 router.delete("/deleteJobApplication",authToken,deleteJobApplication)
+router.get("/resumeDownload/:candidate_id",authToken,resumeDownloadController)
+router.post("/resume-status",authToken,statusResumeController)
 
 module.exports=router

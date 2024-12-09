@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import SummaryApi from '../common/index';
+import React, { useEffect, useState } from "react";
+import SummaryApi from "../common/index";
+import { toast } from "react-toastify";
 
 function ViewCandidates() {
   const [candidateData, setCandidateData] = useState([]);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
 
-  // Fetch candidate data from the API
   const handleUserData = async () => {
     const response = await fetch(SummaryApi.View_candidates.url, {
       method: SummaryApi.View_candidates.method,
-      credentials: 'include',
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
@@ -26,24 +26,56 @@ function ViewCandidates() {
     handleUserData();
   }, []);
 
-  const openModal = (candidate) => {
+  const openModal = async (candidate) => {
     setSelectedCandidate(candidate);
     setIsResumeModalOpen(true);
-    document.body.style.overflow = 'hidden'; // Disable scrolling
+
+    document.body.style.overflow = "hidden"; // Disable scrolling
   };
 
   const closeModal = () => {
     setIsResumeModalOpen(false);
     setSelectedCandidate(null);
-    setStatus('');
-    document.body.style.overflow = 'auto'; // Enable scrolling
+    setStatus("");
+    document.body.style.overflow = "auto"; // Enable scrolling
   };
 
-  const handleDownloadResume = () => {
-    if (selectedCandidate?.resumeUrl) {
-      window.open(selectedCandidate.resumeUrl, '_blank');
+  const handleDownloadResume = async () => {
+    const candidate_id = selectedCandidate._id;
+
+    const response = await fetch(
+      `${SummaryApi.resumeDownload.url}/${candidate_id}`,
+      {
+        method: SummaryApi.resumeDownload.method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      const blob = await response.blob();
+
+      // Extract filename from Content-Disposition header (if set by the server)
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = "resume.pdf"; // Default filename
+
+      if (contentDisposition && contentDisposition.includes("attachment")) {
+        const match = contentDisposition.match(/filename="(.+)"/);
+        if (match && match[1]) {
+          filename = match[1];
+        }
+      }
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename; // Use extracted filename
+      link.click();
+
+      console.log("Download initiated");
     } else {
-      alert('Resume not available');
+      console.error("Failed to download resume");
     }
   };
 
@@ -51,23 +83,36 @@ function ViewCandidates() {
     setStatus(e.target.value);
   };
 
-  const handleSaveStatus = () => {
-    if (!status) {
-      alert('Please select a status before saving.');
-      return;
+  const handleSaveStatus = async () => {
+    const Candidates = { ...selectedCandidate, status: status };
+
+    const response = await fetch(SummaryApi.status_resume.url, {
+      method: SummaryApi.status_resume.method,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Candidates),
+    });
+
+    const dataApi = await response.json();
+
+    if (dataApi.success) {
+      toast.success(dataApi.message);
+      closeModal();
     }
-
-    // Implement API call to save the status
-    console.log(`Saving status "${status}" for candidate: ${selectedCandidate?.name}`);
-
-    // Close the modal after saving
-    closeModal();
+    if (dataApi.error) {
+      toast.error(dataApi.message);
+      closeModal();
+    }
   };
 
   return (
     <div>
       <div className="container shadow-lg">
-        <h1 className="text-blue-500 font-semibold text-3xl py-7">Applied Candidates Details</h1>
+        <h1 className="text-blue-500 font-semibold text-3xl py-7">
+          Applied Candidates Details
+        </h1>
         <div className="mx-16">
           <table className="border-2 w-full">
             <thead className="text-white bg-black">
@@ -85,8 +130,12 @@ function ViewCandidates() {
                   <tr key={index}>
                     <td className="border-2 border-black">{candidate.name}</td>
                     <td className="border-2 border-black">{candidate.email}</td>
-                    <td className="border-2 border-black">{candidate.mobile || 'Not Available'}</td>
-                    <td className="border-2 border-black">{candidate.batchData}</td>
+                    <td className="border-2 border-black">
+                      {candidate.mobile || "Not Available"}
+                    </td>
+                    <td className="border-2 border-black">
+                      {candidate.batchData}
+                    </td>
                     <td>
                       <button
                         className="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded m-1"
@@ -99,7 +148,9 @@ function ViewCandidates() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="text-center py-4">No Candidates Applied Yet</td>
+                  <td colSpan="5" className="text-center py-4">
+                    No Candidates Applied Yet
+                  </td>
                 </tr>
               )}
             </tbody>
@@ -120,7 +171,9 @@ function ViewCandidates() {
               &times;
             </button>
 
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Candidate Management</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">
+              Candidate Management
+            </h2>
 
             {/* Resume Download Section */}
             <div className="mb-4">

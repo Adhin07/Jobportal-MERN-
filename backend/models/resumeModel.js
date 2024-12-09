@@ -11,6 +11,11 @@ const resumeSchema =new mongoose.Schema({
         ref:"jobapplication",
         required :true
       },
+      status:
+      {
+        type:String,
+        enum:['Shortlisted','Rejected','Hired','On Hold'],
+      },
       batchNumber:{
         type:String,
         required:true

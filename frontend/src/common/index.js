@@ -70,6 +70,16 @@ const SummaryApi={
    {
           url:`${backendDomain}/api/deleteJobApplication`,
           method:'delete'
+   },
+   resumeDownload:
+   {
+          url:`${backendDomain}/api/resumeDownload`,
+          method:'get'
+   },
+   status_resume:
+   {
+          url:`${backendDomain}/api/resume-status`,
+          method:'post'
    }
    
 

@@ -1,11 +1,12 @@
-const JobApplicationModel = require("../models/jobApplicationModel")
-const resumeModel = require("../models/resumeModel")
+const JobApplicationModel = require("../models/jobApplicationModel");
+const resumeModel = require("../models/resumeModel");
+const statusModel = require("../models/saveStatus");
 
 async function viewAppliedJob(req, res) {
     try {
-        const userId = req.userId;  // Assuming the userId is available from the request
+        const userId = req.userId;  // Assuming userId is set in the request (e.g., through middleware)
 
-        // Fetch the applied jobs based on userId from the resume model
+        // Fetch applied jobs for the user from the resume model
         const appliedJobs = await resumeModel.find({ userId });
 
         if (!appliedJobs || appliedJobs.length === 0) {
@@ -18,18 +19,30 @@ async function viewAppliedJob(req, res) {
 
         const jobDetails = [];
 
-        // Iterate over appliedJobs to fetch the job details for each applied job
-        for (const appliedJob of appliedJobs) {
-            const jobId = appliedJob.jobId;  // Assuming each resume document contains a jobId field
+        // Using Promise.all to handle all asynchronous operations in parallel
+        const jobPromises = appliedJobs.map(async (appliedJob) => {
+            const jobId = appliedJob.jobId;
 
+            // Fetch the most recent status for this job and user
+            const statusData = await statusModel.findOne({ jobId, userId }).sort({ createdAt: -1 });
 
+            // Fetch the job data
             const jobData = await JobApplicationModel.findById(jobId);
 
             if (jobData) {
-                jobDetails.push({ ...jobData.toObject() });  // Adding the job data to the jobDetails array
+                // If jobData is found, push a combined object with job details and status
+                jobDetails.push({
+                    ...jobData.toObject(),
+                    status: statusData ? statusData.status : null,  // Ensure status is included or null if no status found
+                    batchNumber: appliedJob.batchNumber,  // Include batch number if needed
+                });
             }
-        }
+        });
 
+        // Wait for all jobPromises to resolve
+        await Promise.all(jobPromises);
+
+        // Return the aggregated job details
         res.json({
             data: jobDetails,
             message: "Success",

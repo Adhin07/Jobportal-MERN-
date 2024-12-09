@@ -13,8 +13,6 @@ async function resumeController(req, res) {
     
     
 
-    // console.log(req.file)
-
     const payload = {
        batchNumber:req.body.job.batchNumber,
        fileName:req.file.originalname, 

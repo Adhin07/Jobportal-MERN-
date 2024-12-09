@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import EditProfile from '../components/EditProfiel';
-import SummaryApi from '../common';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import EditProfile from "../components/EditProfiel";
+import SummaryApi from "../common";
 
 function EmployerDashboard() {
   const [openEditProfiel, setOpenEditProfile] = useState(false);
@@ -11,12 +11,11 @@ function EmployerDashboard() {
   const navigate = useNavigate();
 
   const openModal = async () => {
-    
     const response = await fetch(SummaryApi.view_Created_Job.url, {
       method: SummaryApi.view_Created_Job.method,
-      credentials: 'include',
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
@@ -26,7 +25,7 @@ function EmployerDashboard() {
   };
 
   const closeModal = () => {
-    document.body.style.overflow = 'auto'; // Enable scrolling
+    document.body.style.overflow = "auto"; // Enable scrolling
     setIsModalOpen(false);
   };
 
@@ -39,13 +38,16 @@ function EmployerDashboard() {
   };
 
   const handleEditApplication = async (job) => {
-    const response = await fetch(`${SummaryApi.apply_job.url}?jobId=${job._id}`, {
-      method: SummaryApi.apply_job.method,
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await fetch(
+      `${SummaryApi.apply_job.url}?jobId=${job._id}`,
+      {
+        method: SummaryApi.apply_job.method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const jobData = await response.json();
     setJobData(jobData);
@@ -54,9 +56,7 @@ function EmployerDashboard() {
     }
   };
 
-  const handleResponse=()=>{
-
-  }
+  const handleResponse = () => {};
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -71,8 +71,12 @@ function EmployerDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Profile Editing Section */}
           <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-700">Profile Editing</h2>
-            <p className="mt-2 text-gray-600">Update your personal and professional information.</p>
+            <h2 className="text-2xl font-bold text-purple-700">
+              Profile Editing
+            </h2>
+            <p className="mt-2 text-gray-600">
+              Update your personal and professional information.
+            </p>
             <button
               onClick={handleEditProfile}
               className="mt-4 w-full bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition duration-200"
@@ -85,9 +89,13 @@ function EmployerDashboard() {
 
           {/* Create Job Application Section */}
           <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-700">Create Job Application</h2>
-            <p className="mt-2 text-gray-600">Create a new job application to hire top talent.</p>
-            <Link to={'/job-application'}>
+            <h2 className="text-2xl font-bold text-purple-700">
+              Create Job Application
+            </h2>
+            <p className="mt-2 text-gray-600">
+              Create a new job application to hire top talent.
+            </p>
+            <Link to={"/job-application"}>
               <button className="mt-4 w-full bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition duration-200">
                 Create Application
               </button>
@@ -96,8 +104,12 @@ function EmployerDashboard() {
 
           {/* View Applied Candidates Section */}
           <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-700">View Applied Candidates</h2>
-            <p className="mt-2 text-gray-600">View and manage applications from candidates.</p>
+            <h2 className="text-2xl font-bold text-purple-700">
+              View Applied Candidates
+            </h2>
+            <p className="mt-2 text-gray-600">
+              View and manage applications from candidates.
+            </p>
             <button
               onClick={handleViewCandidates}
               className="mt-4 w-full bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition duration-200"
@@ -108,8 +120,12 @@ function EmployerDashboard() {
 
           {/* Edit Job Application Section */}
           <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-700">Edit Job Application</h2>
-            <p className="mt-2 text-gray-600">Edit your existing job applications.</p>
+            <h2 className="text-2xl font-bold text-purple-700">
+              Edit Job Application
+            </h2>
+            <p className="mt-2 text-gray-600">
+              Edit your existing job applications.
+            </p>
             <button
               onClick={openModal}
               className="mt-4 w-full bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition duration-200"
@@ -117,18 +133,6 @@ function EmployerDashboard() {
               View & Edit
             </button>
           </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 className="text-2xl font-bold text-purple-700">Give Status to Application </h2>
-            <p className="mt-2 text-gray-600">Download student resume and give status</p>
-            <button
-              onClick={handleResponse}
-              className="mt-4 w-full bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition duration-200"
-            >
-              Give Response
-            </button>
-          </div>
-
         </div>
       </div>
 
@@ -164,7 +168,9 @@ function EmployerDashboard() {
                       <td className="px-4 py-2">{job.companyName}</td>
                       <td className="px-4 py-2">{job.salary}</td>
                       <td className="px-4 py-2">{job.companyLocation}</td>
-                      <td className="px-4 py-2">{new Date(job.endDate).toLocaleDateString('en-GB')}</td>
+                      <td className="px-4 py-2">
+                        {new Date(job.endDate).toLocaleDateString("en-GB")}
+                      </td>
                       <td className="px-4 py-2">
                         <button
                           onClick={() => handleEditApplication(job)}
@@ -177,7 +183,12 @@ function EmployerDashboard() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className="text-center px-4 py-2 text-gray-500">No job applications available.</td>
+                    <td
+                      colSpan="6"
+                      className="text-center px-4 py-2 text-gray-500"
+                    >
+                      No job applications available.
+                    </td>
                   </tr>
                 )}
               </tbody>
@@ -185,8 +196,6 @@ function EmployerDashboard() {
           </div>
         </div>
       )}
-
-
     </div>
   );
 }
