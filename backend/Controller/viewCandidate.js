@@ -1,66 +1,83 @@
-const JobApplicationModel=require('../models/jobApplicationModel')
-const resumeModel = require('../models/resumeModel')
-const UserModel = require('../models/userModels')
+const JobApplicationModel = require('../models/jobApplicationModel');
+const resumeModel = require('../models/resumeModel');
+const UserModel = require('../models/userModels');
 
-async function viewCandidateController(req,res){
+async function viewCandidateController(req, res) {
     try {
+        const userId = req.userId;  // Assuming the userId is available from the request
 
-        const userId=req.userId
+        // Find the jobs the employer has posted or applied to
+        const userData = await JobApplicationModel.find({ userId }).lean();
 
-       const userData=await JobApplicationModel.find({userId}).lean()
+        console.log("userData", userData);
 
-       if (!userData || userData.length === 0) {
-        return res.status(404).json({
-            message: "No job applications found for this employer.",
-            error: true,
-            success: false
-        });
-    }   
-
-      const jobId=userData[0]._id
-
-        const resumeData=await resumeModel.find({jobId}).lean()
-
-        if (!resumeData || resumeData.length === 0) {
+        if (!userData || userData.length === 0) {
             return res.status(404).json({
-                message: "No candidates have applied for this job.",
+                message: "No job applications found for this employer.",
                 error: true,
                 success: false
             });
         }
 
-        const candidateDetiails=[]
+        const candidateDetails = [];
 
-        for (const resume of resumeData){
-            const candidateId=resume.userId
+        // Loop through each jobId to fetch resumes and candidate details for all the jobs
+        for (const job of userData) {
+            const jobId = job._id;  // The jobId of each job posted by the employer
 
-          const  candidate=await UserModel.findById(candidateId).lean()
+            // Find the resumes associated with this jobId
+            const resumeData = await resumeModel.find({ jobId }).lean();
 
-          if(candidate) {
+            if (!resumeData || resumeData.length === 0) {
+                console.log(`No candidates have applied for jobId: ${jobId}`);
+                continue; // Skip to the next job if no resumes found for this job
+            }
 
-            const batchData=resume.batchNumber
+            // Iterate over each resume to fetch candidate details
+            for (const resume of resumeData) {
+                const candidateId = resume.userId;
 
-            candidateDetiails.push({
-                ...candidate,
-                batchData:batchData
-            })
-          }
+                // Find the candidate by userId
+                const candidate = await UserModel.findById(candidateId).lean();
 
+                if (candidate) {
+                    const batchData = resume.batchNumber;
+
+                    // Push the candidate details along with batchData and jobId
+                    candidateDetails.push({
+                        ...candidate,
+                        batchData: batchData,
+                        jobId: jobId  // Adding jobId to identify which job the candidate applied to
+                    });
+                }
+            }
         }
+
+        // If there are candidate details, return them
+        if (candidateDetails.length > 0) {
             res.json({
-                data:candidateDetiails,
-                message:"Candidates details retrived successfully",
-                error:false,
-                success:true
-            })
-        
+                data: candidateDetails,
+                message: "Candidates details retrieved successfully",
+                error: false,
+                success: true
+            });
+        } else {
+            // If no candidates found for any of the jobs, send a response
+            res.status(404).json({
+                message: "No candidates found for the jobs posted by this employer.",
+                error: true,
+                success: false
+            });
+        }
+
     } catch (err) {
+        console.error("Error in viewCandidateController:", err);
         res.status(400).json({
-            message:err.message || err,
-            error:true,
-            success:false
-        })
+            message: err.message || err,
+            error: true,
+            success: false
+        });
     }
 }
 
-module.exports=viewCandidateController
+module.exports = viewCandidateController;

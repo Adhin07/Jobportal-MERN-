@@ -11,6 +11,14 @@ async function statusResumeController(req, res) {
     // Find the job (assuming you're retrieving the job data from another model like resumeModel)
     const job = await resumeModel.find({ userId, batchNumber });
 
+    if (!job || job.length === 0) {
+      return res.status(404).json({
+        message: "No job found for this candidate with the given batch.",
+        success: false,
+        error: true,
+      });
+    }
+
     const jobData = job[0];
 
     const candidate_id = jobData.userId;
@@ -44,7 +52,7 @@ async function statusResumeController(req, res) {
       jobId: jobId,
     });
 
-    // If status already exists, return an error
+    // If status already exists, return an error with message
     if (existingStatus) {
       return res.status(400).json({
         success: false,
@@ -58,7 +66,7 @@ async function statusResumeController(req, res) {
     const statusData = new statusModel(payload);
     const saveStatus = await statusData.save();
 
-    // Send response
+    // Send response indicating status saved successfully
     res.status(201).json({
       success: true,
       message: "Status saved successfully",
@@ -76,6 +84,7 @@ async function statusResumeController(req, res) {
       });
     }
 
+    // Handle unexpected errors
     res.status(500).json({
       error: error.message || error,
       success: false,
