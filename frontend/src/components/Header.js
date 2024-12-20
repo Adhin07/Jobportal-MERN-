@@ -36,67 +36,67 @@ const Header = () => {
 
        
   return (
-   <header className='h-16 shadow-md bg-white fixed w-full z-40'>
-    <div className='h-full mx-auto flex items-center px-4 justify-between'>
-    <div className='text-3xl'>
-        <Logo w={80} h={80}/>
-    </div>
-
-    <div className='flex items-center font-bold text-5xl text-gray-900'>FindIt</div>
-        <div className='flex justify-between p-4'>
-            <button className='hover:bg-purple-500 rounded-md p-1 cursor-pointer pr-3'>
-                <div className='flex justify-center relative text-purple-600 hover:text-white '>
-                    <div className='flex text-black pt-1 px-1 '><IoHome/></div>
-                         <Link to={'/'} className='font-semibold '>HOME</Link>
-                    </div>
-            </button>
-
-            {
-                user ? (
-                    <button className=' text-purple-600 hover:bg-purple-500 rounded-md p-1 cursor-pointer pr-3 ml-2 mr-2' onClick={()=>handleLoggout()} >
-                    <div className='flex justify-center relative font-semibold hover:text-white'>  
-                    <div className='flex text-black pt-1 px-1'>
-                     <RiLoginBoxFill />
-                    </div>
-                    <Link to={"/"}>LOGOUT
-                    </Link>
-                    
-                    </div>
-                    </button>
-                ):
-                (
-                    <button className=' text-purple-600 hover:bg-purple-500 rounded-md p-1 cursor-pointer pr-3 ml-2 mr-2' >
-                    <div className='flex justify-center relative font-semibold hover:text-white'>  
-                    <div className='flex text-black pt-1 px-1'>
-                     <RiLoginBoxFill />
-                    </div>
-                    <Link to={"/login"}>LOGIN</Link>
-                    
-                    </div>
-                    </button>
-                )
-               
-           
-           }
-
-
-        { 
-            user && (
-                
-                    <button className='hover:bg-purple-500 rounded-md p-1 cursor-pointer pr-3'>
-                        <div className='flex justify-center relative text-purple-600 hover:text-white '>
-                        <div className='flex text-black pt-1 px-1 '><MdDashboard/></div>
-                        <Link to={'/dashboard'} className='font-semibold uppercase'>Dashboard</Link>
-                        </div>
-                    </button>
-
-                    )
-        }
+<header className="h-16 shadow-md bg-white fixed w-full z-40">
+  <div className="h-full mx-auto flex items-center px-4 justify-between">
     
-        </div>
-
+    <div className="text-3xl">
+      <Logo w={60} h={60} />
     </div>
-    </header>
+
+    <div className="hidden sm:flex items-center justify-center font-extrabold text-2xl sm:text-5xl text-gray-700">
+      FindIt
+    </div>
+
+    <div className="flex items-center space-x-2 sm:space-x-4">
+
+      <button className="hover:bg-purple-500 rounded-md p-2 cursor-pointer">
+        <div className="flex items-center text-purple-600 hover:text-white">
+          <IoHome className="text-xl sm:text-2xl" />
+          <Link to="/" className="ml-2 font-semibold hidden sm:block">
+            HOME
+          </Link>
+        </div>
+      </button>
+
+      
+      {user ? (
+        <button
+          className="text-purple-600 hover:bg-purple-500 rounded-md p-2 cursor-pointer"
+          onClick={handleLoggout}
+        >
+          <div className="flex items-center font-semibold hover:text-white">
+            <RiLoginBoxFill className="text-xl sm:text-2xl" />
+            <span className="ml-2 hidden sm:block">LOGOUT</span>
+          </div>
+        </button>
+      ) : (
+        <button className="text-purple-600 hover:bg-purple-500 rounded-md p-2 cursor-pointer">
+          <div className="flex items-center font-semibold hover:text-white">
+            <RiLoginBoxFill className="text-xl sm:text-2xl" />
+            <Link to="/login" className="ml-2 hidden sm:block">
+              LOGIN
+            </Link>
+          </div>
+        </button>
+      )}
+
+      {user && (
+        <button className="hover:bg-purple-500 rounded-md p-2 cursor-pointer">
+          <div className="flex items-center text-purple-600 hover:text-white">
+            <MdDashboard className="text-xl sm:text-2xl" />
+            <Link
+              to="/dashboard"
+              className="ml-2 font-semibold hidden sm:block uppercase"
+            >
+              Dashboard
+            </Link>
+          </div>
+        </button>
+      )}
+    </div>
+  </div>
+</header>
+
   )
 }
 

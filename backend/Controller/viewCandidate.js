@@ -4,9 +4,8 @@ const UserModel = require('../models/userModels');
 
 async function viewCandidateController(req, res) {
     try {
-        const userId = req.userId;  // Assuming the userId is available from the request
+        const userId = req.userId; 
 
-        // Find the jobs the employer has posted or applied to
         const userData = await JobApplicationModel.find({ userId }).lean();
 
         console.log("userData", userData);
@@ -21,16 +20,16 @@ async function viewCandidateController(req, res) {
 
         const candidateDetails = [];
 
-        // Loop through each jobId to fetch resumes and candidate details for all the jobs
+        
         for (const job of userData) {
-            const jobId = job._id;  // The jobId of each job posted by the employer
+            const jobId = job._id; 
 
-            // Find the resumes associated with this jobId
+           
             const resumeData = await resumeModel.find({ jobId }).lean();
 
             if (!resumeData || resumeData.length === 0) {
-                console.log(`No candidates have applied for jobId: ${jobId}`);
-                continue; // Skip to the next job if no resumes found for this job
+                console.log(`No candidates have applied for jobId: ${jobId}`)   
+                continue; 
             }
 
             // Iterate over each resume to fetch candidate details
